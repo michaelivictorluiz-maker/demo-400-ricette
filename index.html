@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>400 Ricette per Friggitrice ad Aria | Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<style>body{margin:0;background:#FAF7F2}</style>
+<style>body{margin:0;background:#FBF4EA}</style>
 </head>
 <body>
 <!-- DEMO APP 400 RICETTE — cole esta seção inteira na página (HTML + CSS + JS autocontidos) -->
@@ -66,12 +66,14 @@
       <div class="rd-detail" id="rd-detail" hidden>
         <button class="rd-back" id="rd-back">‹ Indietro</button>
         <div class="rd-d-img" id="rd-d-img"></div>
+        <p class="rd-d-cat" id="rd-d-cat"></p>
         <h3 id="rd-d-name"></h3>
-        <div class="rd-chips big" id="rd-d-chips"></div>
-        <p class="rd-label">Ingredienti</p>
-        <ul id="rd-d-ing"></ul>
-        <p class="rd-label">Procedimento</p>
-        <ol id="rd-d-steps"></ol>
+        <div class="rd-stats" id="rd-d-stats"></div>
+        <p class="rd-label">Ingredienti <span id="rd-d-por"></span></p>
+        <ul class="rd-ing" id="rd-d-ing"></ul>
+        <p class="rd-label">Preparazione</p>
+        <ol class="rd-steps" id="rd-d-steps"></ol>
+        <div class="rd-tip"><div class="rd-tip-h"><span class="rd-av">M</span><b>Il consiglio della Chef Martina</b></div><p id="rd-d-tip"></p></div>
       </div>
 
       <nav class="rd-tabs">
@@ -84,13 +86,13 @@
 </section>
 
 <style>
-.rd-wrap{--bg:#FAF7F2;--ink:#1A1A1A;--mut:#6B6B6B;--acc:#C8553D;--chip:#F3ECE2;--line:#EEE6DA;
+.rd-wrap{--bg:#FBF4EA;--ink:#1A1A1A;--mut:#6B6B6B;--acc:#C8553D;--chip:#F3ECE2;--line:#EEE6DA;
   background:var(--bg);padding:48px 16px;text-align:center;font-family:"DM Sans",Inter,system-ui,sans-serif;color:var(--ink)}
 .rd-title{font-family:Georgia,serif;font-size:26px;line-height:1.25;margin:0 0 6px}
 .rd-sub{color:var(--mut);font-size:14px;margin:0 0 28px}
 .rd-phone{position:relative;width:300px;max-width:100%;height:600px;margin:0 auto;background:#1c1c1c;border-radius:44px;padding:12px;box-shadow:0 20px 50px rgba(0,0,0,.18)}
 .rd-notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#000;border-radius:14px;z-index:5}
-.rd-screen{position:relative;height:100%;background:#fff;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;text-align:left}
+.rd-screen{position:relative;height:100%;background:var(--bg);border-radius:34px;overflow:hidden;display:flex;flex-direction:column;text-align:left}
 .rd-top{padding:52px 18px 10px;display:flex;flex-direction:column}
 .rd-brand{font-weight:700;font-size:18px}
 .rd-dot{font-size:11px;color:var(--mut)}
@@ -110,27 +112,43 @@
 .rd-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;background:#fff;transition:background .15s}
 .rd-item:hover{background:var(--bg)}
 .rd-item small{font-weight:400;color:var(--mut);font-size:11px;white-space:nowrap}
-.rd-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:4px}
+.rd-search{background:#fff;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:4px}
 .rd-search span{color:var(--mut)}
 .rd-search input{border:0;outline:0;font:inherit;font-size:14px;width:100%;background:transparent}
 .rd-filters{display:flex;gap:6px;margin:10px 0 2px}
 .rd-filters button{font:inherit;font-size:12px;border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:20px;cursor:pointer;color:var(--ink)}
 .rd-filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .rd-count{font-size:11px;color:var(--mut);margin:10px 0 6px}
-.rd-card{border:1px solid var(--line);border-radius:16px;padding:14px;font-size:13px}
+.rd-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;font-size:13px}
 .rd-row{display:flex;gap:10px;margin:10px 0}
 .rd-row div{flex:1}
 .rd-row small{display:block;color:var(--mut);font-size:11px;margin-bottom:4px}
-.rd-row input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;font-weight:600;padding:8px 10px;border:1px solid var(--line);border-radius:10px}
+.rd-row input{background:#fff;width:100%;box-sizing:border-box;font:inherit;font-size:16px;font-weight:600;padding:8px 10px;border:1px solid var(--line);border-radius:10px}
 .rd-out{background:var(--chip);border-radius:12px;padding:12px;font-size:13px}
 .rd-out b{display:block;font-size:20px;color:var(--acc);margin-top:2px}
 .rd-note{font-size:11px;color:var(--mut)}
-.rd-detail{position:absolute;inset:0;bottom:62px;background:#fff;padding-top:48px;z-index:3;animation:rdIn .25s ease}
+.rd-detail{position:absolute;inset:0;bottom:62px;background:var(--bg);padding-top:48px;z-index:3;animation:rdIn .25s ease}
 .rd-back{font:inherit;font-size:13px;border:0;background:none;color:var(--acc);padding:0;cursor:pointer;margin-bottom:8px}
-.rd-d-img{height:140px;border-radius:16px}
-.rd-detail h3{font-size:17px;margin:12px 0 8px}
-.rd-detail ul,.rd-detail ol{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
-.rd-tabs{display:flex;border-top:1px solid var(--line);background:#fff;padding:6px 4px 12px;z-index:4}
+.rd-d-img{height:150px;border-radius:16px;flex:none}
+.rd-d-cat{font-size:11px;color:var(--acc);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 2px}
+.rd-detail h3{font-size:18px;margin:0 0 10px;line-height:1.25}
+.rd-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.rd-stats div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 4px;text-align:center}
+.rd-stats b{display:block;font-size:13px}
+.rd-stats small{font-size:10px;color:var(--mut)}
+.rd-label span{text-transform:none;letter-spacing:0;color:var(--acc);font-weight:600}
+.rd-ing{list-style:none;margin:0;padding:0}
+.rd-ing li{display:flex;gap:8px;align-items:flex-start;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line)}
+.rd-ing li:before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--acc);margin-top:7px}
+.rd-steps{list-style:none;margin:0;padding:0;counter-reset:st}
+.rd-steps li{counter-increment:st;position:relative;padding:0 0 12px 30px;font-size:13px;line-height:1.5}
+.rd-steps li:before{content:counter(st);position:absolute;left:0;top:0;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;display:grid;place-items:center}
+.rd-steps em{display:inline-block;font-style:normal;font-size:11px;font-weight:600;color:var(--acc);background:#FBEDE8;padding:1px 7px;border-radius:10px;margin-bottom:3px}
+.rd-tip{background:#FBEDE8;border-radius:14px;padding:12px;margin:6px 0 10px}
+.rd-tip-h{display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:6px}
+.rd-av{width:24px;height:24px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.rd-tip p{margin:0;font-size:13px;line-height:1.5}
+.rd-tabs{display:flex;border-top:1px solid var(--line);background:var(--bg);padding:6px 4px 12px;z-index:4}
 .rd-tabs button{flex:1;font:inherit;font-size:11px;border:0;background:none;color:var(--mut);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .rd-tabs button span{font-size:17px}
 .rd-tabs button.on{color:var(--acc);font-weight:600}
@@ -141,16 +159,7 @@
 (function(){
   // VALORES ILUSTRATIVOS — substituir pelos reais do app
   // FOTOS: cole o link da imagem de cada receita em img:"" (ex.: img:"https://seusite.com/pollo.jpg")
-  var R=[
-    {n:"Cosce di pollo con patate",img:"https://iili.io/n1s9eKG.jpg",e:"🍗",m:25,t:190,k:380,ing:["4 cosce di pollo","400 g di patate","Rosmarino, olio, sale"],s:["Condisci pollo e patate.","Cuoci 15 min a 190°.","Gira e prosegui 10 min."]},
-    {n:"Bocconcini di pollo al limone",img:"https://iili.io/n1sKu19.jpg",e:"🍋",m:18,t:185,k:310,ing:["500 g di petto di pollo","1 limone","Pangrattato"],s:["Taglia e marina 5 min.","Passa nel pangrattato.","Cuoci 18 min a 185°."]},
-    {n:"Involtini di pollo e speck",img:"https://iili.io/n1szVRt.jpg",e:"🥓",m:20,t:190,k:350,ing:["4 fettine di pollo","4 fette di speck","Formaggio"],s:["Arrotola con speck e formaggio.","Cuoci 20 min a 190°."]},
-    {n:"Salmone con zucchine",img:"https://i.postimg.cc/pdqCNvmc/Gemini-Generated-Image-x4st0jx4st0jx4st.jpg",e:"🐟",m:15,t:180,k:330,ing:["2 tranci di salmone","2 zucchine","Limone, aneto"],s:["Condisci salmone e zucchine.","Cuoci 15 min a 180°."]},
-    {n:"Polpette al sugo leggere",img:"https://i.postimg.cc/63K8h46R/Gemini-Generated-Image-curikqcurikqcuri.jpg",e:"🍝",m:20,t:180,k:360,ing:["400 g di macinato","1 uovo","Passata"],s:["Forma le polpette.","Cuoci 12 min a 180°.","Unisci al sugo caldo."]},
-    {n:"Verdure grigliate miste",img:"https://i.postimg.cc/RVhNGBmw/Gemini-Generated-Image-vviaduvviaduvvia.jpg",e:"🥕",m:16,t:200,k:140,ing:["Peperoni, zucchine, melanzane","Olio, origano"],s:["Taglia a listarelle.","Cuoci 16 min a 200°."]},
-    {n:"Cotoletta di pollo croccante",img:"https://i.postimg.cc/XYQWPZgC/Gemini-Generated-Image-xmwm26xmwm26xmwm-%281%29.jpg",e:"🍽️",m:18,t:190,k:340,ing:["2 petti di pollo","1 uovo","Pangrattato"],s:["Impana il pollo.","Cuoci 18 min a 190°, girando a metà."]},
-    {n:"Patate al rosmarino",img:"https://i.postimg.cc/kXSyJZ1p/Gemini-Generated-Image-54jioh54jioh54ji.jpg",e:"🥔",m:22,t:200,k:210,ing:["600 g di patate","Rosmarino, aglio"],s:["Taglia a spicchi.","Cuoci 22 min a 200°."]}
-  ];
+  var R=[{"n": "Cosce di pollo con patate", "c": "Pollo", "num": 12, "por": 4, "m": 25, "t": 190, "k": 380, "pr": 31, "ing": ["4 cosce di pollo (circa 800 g)", "500 g di patate a spicchi", "2 rametti di rosmarino", "2 spicchi d'aglio in camicia", "1 cucchiaio di olio extravergine", "1 cucchiaino di paprika dolce", "Sale e pepe q.b."], "s": [{"b": "", "x": "Asciuga bene le cosce con carta da cucina: la pelle diventerà più croccante."}, {"b": "", "x": "In una ciotola condisci pollo e patate con olio, paprika, rosmarino, aglio, sale e pepe."}, {"b": "190° · 3 min", "x": "Preriscalda la friggitrice."}, {"b": "190° · 15 min", "x": "Metti le cosce con la pelle verso il basso e le patate intorno, senza sovrapporle."}, {"b": "190° · 10 min", "x": "Gira le cosce, scuoti il cestello e prosegui la cottura."}, {"b": "", "x": "Controlla che vicino all'osso la carne non sia più rosa. Lascia riposare 2 minuti."}], "tip": "Se il cestello è piccolo, cuoci in due volte: con il cestello pieno l'aria non circola e la pelle resta molle.", "img": "https://iili.io/n1s9eKG.jpg"}, {"n": "Bocconcini di pollo al limone", "c": "Pollo", "num": 27, "por": 3, "m": 18, "t": 185, "k": 310, "pr": 34, "ing": ["500 g di petto di pollo", "1 limone (succo e scorza)", "60 g di pangrattato", "20 g di parmigiano grattugiato", "1 cucchiaio di olio", "Prezzemolo, sale e pepe"], "s": [{"b": "", "x": "Taglia il petto a cubetti di circa 3 cm, tutti uguali."}, {"b": "", "x": "Marina 10 minuti con succo di limone, olio, sale e pepe."}, {"b": "", "x": "Passa i bocconcini nel pangrattato mescolato con parmigiano e scorza di limone."}, {"b": "185° · 10 min", "x": "Disponi in un solo strato e cuoci."}, {"b": "185° · 8 min", "x": "Scuoti il cestello e completa la cottura fino a doratura."}, {"b": "", "x": "Finisci con prezzemolo fresco e qualche goccia di limone."}], "tip": "La scorza va nella panatura, non nella marinatura: così il profumo di limone resta anche dopo la cottura.", "img": "https://iili.io/n1sKu19.jpg"}, {"n": "Involtini di pollo e speck", "c": "Pollo", "num": 41, "por": 4, "m": 20, "t": 190, "k": 350, "pr": 36, "ing": ["8 fettine sottili di petto di pollo", "8 fette di speck", "8 bastoncini di scamorza o provola", "Salvia fresca", "1 cucchiaio di olio", "Pepe nero"], "s": [{"b": "", "x": "Batti leggermente le fettine per renderle sottili e uniformi."}, {"b": "", "x": "Su ogni fettina metti una foglia di salvia e un bastoncino di formaggio."}, {"b": "", "x": "Arrotola e avvolgi con lo speck: non serve lo stuzzicadenti se chiudi bene."}, {"b": "190° · 12 min", "x": "Disponi con la chiusura verso il basso e spennella d'olio."}, {"b": "190° · 8 min", "x": "Gira gli involtini e completa la cottura."}], "tip": "Metti gli involtini con la chiusura verso il basso: il formaggio resta dentro e non cola nel cestello.", "img": "https://iili.io/n1szVRt.jpg"}, {"n": "Salmone con zucchine", "c": "Pesce", "num": 88, "por": 2, "m": 15, "t": 180, "k": 330, "pr": 29, "ing": ["2 tranci di salmone (circa 300 g)", "2 zucchine a rondelle", "1 limone", "Aneto fresco", "1 cucchiaio di olio", "Sale in fiocchi"], "s": [{"b": "", "x": "Condisci le zucchine con metà dell'olio e un pizzico di sale."}, {"b": "180° · 5 min", "x": "Cuoci prima le zucchine da sole."}, {"b": "", "x": "Aggiungi il salmone con la pelle verso il basso, olio, aneto e fettine di limone."}, {"b": "180° · 10 min", "x": "Completa la cottura senza girare il pesce."}], "tip": "Non girare il salmone: con la pelle sotto resta morbido dentro e la pelle diventa croccante.", "img": "https://i.postimg.cc/pdqCNvmc/Gemini-Generated-Image-x4st0jx4st0jx4st.jpg"}, {"n": "Polpette al sugo leggere", "c": "Carne", "num": 64, "por": 4, "m": 20, "t": 180, "k": 360, "pr": 27, "ing": ["400 g di macinato misto", "1 uovo", "40 g di pangrattato", "30 g di parmigiano", "400 g di passata di pomodoro", "Basilico, sale e pepe"], "s": [{"b": "", "x": "Impasta macinato, uovo, pangrattato, parmigiano, sale e pepe."}, {"b": "", "x": "Forma 16 polpette della stessa misura, con le mani umide."}, {"b": "180° · 8 min", "x": "Cuoci le polpette in un solo strato."}, {"b": "180° · 4 min", "x": "Girale e completa la doratura."}, {"b": "", "x": "Scalda la passata 5 minuti in padella, unisci le polpette e il basilico."}], "tip": "Cotte in friggitrice invece che fritte, le polpette restano morbide e il sugo non diventa unto.", "img": "https://i.postimg.cc/63K8h46R/Gemini-Generated-Image-curikqcurikqcuri.jpg"}, {"n": "Verdure grigliate miste", "c": "Verdure", "num": 152, "por": 4, "m": 16, "t": 200, "k": 140, "pr": 4, "ing": ["1 peperone rosso", "1 peperone giallo", "2 zucchine", "1 melanzana", "2 cucchiai di olio", "Origano, sale e pepe"], "s": [{"b": "", "x": "Taglia tutte le verdure a listarelle di spessore simile (circa 1 cm)."}, {"b": "", "x": "Condisci con olio, origano, sale e pepe."}, {"b": "200° · 8 min", "x": "Cuoci in un solo strato."}, {"b": "200° · 8 min", "x": "Scuoti il cestello e completa fino a leggera bruciacchiatura."}], "tip": "Sala le melanzane solo alla fine: se le sali prima rilasciano acqua e si lessano invece di grigliarsi.", "img": "https://i.postimg.cc/RVhNGBmw/Gemini-Generated-Image-vviaduvviaduvvia.jpg"}, {"n": "Cotoletta di pollo croccante", "c": "Pollo", "num": 19, "por": 2, "m": 18, "t": 190, "k": 340, "pr": 38, "ing": ["2 petti di pollo (circa 350 g)", "1 uovo", "70 g di pangrattato", "Olio spray", "Limone e rucola per servire", "Sale"], "s": [{"b": "", "x": "Apri i petti a libro e battili a 1 cm di spessore."}, {"b": "", "x": "Passali nell'uovo sbattuto con un pizzico di sale, poi nel pangrattato premendo bene."}, {"b": "", "x": "Spruzza un velo d'olio su entrambi i lati."}, {"b": "190° · 10 min", "x": "Cuoci senza sovrapporre."}, {"b": "190° · 8 min", "x": "Gira e completa fino a doratura uniforme."}], "tip": "L'olio spray è il segreto: senza, la panatura resta bianca e secca anche a cottura completa.", "img": "https://i.postimg.cc/XYQWPZgC/Gemini-Generated-Image-xmwm26xmwm26xmwm-%281%29.jpg"}, {"n": "Patate al rosmarino", "c": "Contorni", "num": 140, "por": 4, "m": 22, "t": 200, "k": 210, "pr": 4, "ing": ["700 g di patate", "2 rametti di rosmarino", "3 spicchi d'aglio in camicia", "1,5 cucchiai di olio", "Sale grosso"], "s": [{"b": "", "x": "Taglia le patate a spicchi e lasciale 10 minuti in acqua fredda."}, {"b": "", "x": "Asciugale molto bene e condisci con olio, rosmarino e aglio."}, {"b": "200° · 12 min", "x": "Cuoci in un solo strato."}, {"b": "200° · 10 min", "x": "Scuoti il cestello e completa. Sala solo alla fine."}], "tip": "L'ammollo in acqua toglie l'amido: è quello che rende le patate croccanti fuori e morbide dentro.", "img": "https://i.postimg.cc/kXSyJZ1p/Gemini-Generated-Image-54jioh54jioh54ji.jpg"}];
   var $=function(s){return document.querySelector(s)};
   var ICON='<svg viewBox="0 0 24 24"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M8 7c0-1.5 1-1.5 1-3M12 7c0-1.5 1-1.5 1-3M16 7c0-1.5 1-1.5 1-3"/></svg>';
   function pic(el,r){if(r.img){el.style.backgroundImage="url('"+r.img+"')";el.innerHTML=""}else{el.style.backgroundImage="";el.innerHTML=ICON}}
@@ -186,9 +195,14 @@
 
   function open(i){
     var r=R[i];
-    pic($("#rd-d-img"),r);$("#rd-d-name").textContent=r.n;$("#rd-d-chips").innerHTML=chips(r);
+    pic($("#rd-d-img"),r);
+    $("#rd-d-cat").textContent=r.c+" · Ricetta "+r.num;
+    $("#rd-d-name").textContent=r.n;
+    $("#rd-d-stats").innerHTML="<div><b>"+r.m+"'</b><small>minuti</small></div><div><b>"+r.t+"°</b><small>gradi</small></div><div><b>"+r.k+"</b><small>kcal</small></div><div><b>"+r.pr+" g</b><small>proteine</small></div>";
+    $("#rd-d-por").textContent="· "+r.por+" porzioni";
     $("#rd-d-ing").innerHTML=r.ing.map(function(x){return"<li>"+x+"</li>"}).join("");
-    $("#rd-d-steps").innerHTML=r.s.map(function(x){return"<li>"+x+"</li>"}).join("");
+    $("#rd-d-steps").innerHTML=r.s.map(function(x){return"<li>"+(x.b?"<em>"+x.b+"</em><br>":"")+x.x+"</li>"}).join("");
+    $("#rd-d-tip").textContent=r.tip;
     $("#rd-detail").hidden=false;$("#rd-detail").scrollTop=0;
   }
   document.querySelector(".rd-screen").addEventListener("click",function(e){
@@ -212,9 +226,10 @@
     at(1500,function(){tab("ricette");$("#rd-q").value="";render()});
     "pollo".split("").forEach(function(c,i){at(2200+i*180,function(){$("#rd-q").value+=c;render()})});
     at(4200,function(){open(0)});
-    at(7200,function(){$("#rd-detail").hidden=true});
-    at(8200,function(){tab("strumenti")});
-    at(10500,function(){tab("stasera");loop()});
+    at(5600,function(){var d=$("#rd-detail");d.scrollTo({top:d.scrollHeight,behavior:"smooth"})});
+    at(8800,function(){$("#rd-detail").hidden=true});
+    at(9800,function(){tab("strumenti")});
+    at(12300,function(){tab("stasera");loop()});
   }
   $("#rd-q").addEventListener("focus",stop);
   ["#rd-t","#rd-m"].forEach(function(s){$(s).addEventListener("focus",stop)});
