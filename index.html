@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>400 Ricette per Friggitrice ad Aria | Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#FAF7F2}</style>
+</head>
+<body>
+<!-- DEMO APP 400 RICETTE — cole esta seção inteira na página (HTML + CSS + JS autocontidos) -->
+<!-- ATENÇÃO: valores de min/°C/kcal abaixo são ILUSTRATIVOS. Trocar pelos valores reais do app antes de publicar. -->
+<section class="rd-wrap">
+  <h2 class="rd-title">Ecco come funziona,<br>dal telefono</h2>
+  <p class="rd-sub">Tocca e prova: è l'app che ricevi.</p>
+
+  <div class="rd-phone">
+    <div class="rd-notch"></div>
+    <div class="rd-screen">
+      <div class="rd-top">
+        <span class="rd-brand">400 Ricette</span>
+        <span class="rd-dot">Friggitrice ad Aria</span>
+      </div>
+
+      <!-- STASERA -->
+      <div class="rd-view" data-view="stasera">
+        <p class="rd-label">Stasera ti proponiamo</p>
+        <div class="rd-hero" data-open="0">
+          <div class="rd-hero-img" id="rd-hero-img"></div>
+          <div class="rd-hero-txt">
+            <b>Cosce di pollo con patate</b>
+            <span class="rd-chips"><i>25 min</i><i>190°</i><i>380 kcal</i></span>
+          </div>
+        </div>
+        <p class="rd-label">Oppure</p>
+        <div class="rd-list" id="rd-alt"></div>
+      </div>
+
+      <!-- RICETTE -->
+      <div class="rd-view" data-view="ricette" hidden>
+        <div class="rd-search"><span>⌕</span><input id="rd-q" placeholder="Cerca un ingrediente…" autocomplete="off"></div>
+        <div class="rd-filters">
+          <button data-f="all" class="on">Tutte</button>
+          <button data-f="20">≤ 20 min</button>
+          <button data-f="light">Leggere</button>
+        </div>
+        <p class="rd-count" id="rd-count"></p>
+        <div class="rd-list" id="rd-list"></div>
+      </div>
+
+      <!-- STRUMENTI -->
+      <div class="rd-view" data-view="strumenti" hidden>
+        <p class="rd-label">Convertitore forno → friggitrice</p>
+        <div class="rd-card">
+          <label>Sulla confezione c'è scritto:</label>
+          <div class="rd-row">
+            <div><small>Forno °C</small><input type="number" id="rd-t" value="200"></div>
+            <div><small>Minuti</small><input type="number" id="rd-m" value="25"></div>
+          </div>
+          <div class="rd-out" id="rd-out"></div>
+        </div>
+        <p class="rd-note">Regola indicativa: controlla sempre al primo utilizzo.</p>
+      </div>
+
+      <!-- DETTAGLIO -->
+      <div class="rd-detail" id="rd-detail" hidden>
+        <button class="rd-back" id="rd-back">‹ Indietro</button>
+        <div class="rd-d-img" id="rd-d-img"></div>
+        <h3 id="rd-d-name"></h3>
+        <div class="rd-chips big" id="rd-d-chips"></div>
+        <p class="rd-label">Ingredienti</p>
+        <ul id="rd-d-ing"></ul>
+        <p class="rd-label">Procedimento</p>
+        <ol id="rd-d-steps"></ol>
+      </div>
+
+      <nav class="rd-tabs">
+        <button data-tab="stasera" class="on"><span>☾</span>Stasera</button>
+        <button data-tab="ricette"><span>⌕</span>Ricette</button>
+        <button data-tab="strumenti"><span>⚙</span>Strumenti</button>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<style>
+.rd-wrap{--bg:#FAF7F2;--ink:#1A1A1A;--mut:#6B6B6B;--acc:#C8553D;--chip:#F3ECE2;--line:#EEE6DA;
+  background:var(--bg);padding:48px 16px;text-align:center;font-family:"DM Sans",Inter,system-ui,sans-serif;color:var(--ink)}
+.rd-title{font-family:Georgia,serif;font-size:26px;line-height:1.25;margin:0 0 6px}
+.rd-sub{color:var(--mut);font-size:14px;margin:0 0 28px}
+.rd-phone{position:relative;width:300px;max-width:100%;height:600px;margin:0 auto;background:#1c1c1c;border-radius:44px;padding:12px;box-shadow:0 20px 50px rgba(0,0,0,.18)}
+.rd-notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#000;border-radius:14px;z-index:5}
+.rd-screen{position:relative;height:100%;background:#fff;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;text-align:left}
+.rd-top{padding:52px 18px 10px;display:flex;flex-direction:column}
+.rd-brand{font-weight:700;font-size:18px}
+.rd-dot{font-size:11px;color:var(--mut)}
+.rd-view,.rd-detail{flex:1;overflow-y:auto;padding:4px 16px 16px;scrollbar-width:none}
+.rd-view::-webkit-scrollbar,.rd-detail::-webkit-scrollbar{display:none}
+.rd-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:14px 0 8px}
+.rd-hero{background:var(--chip);border-radius:16px;overflow:hidden;cursor:pointer}
+.rd-hero-img,.rd-d-img{background:#F3ECE2 center/cover no-repeat;display:grid;place-items:center}
+.rd-hero-img{height:120px}
+.rd-hero-img svg,.rd-d-img svg{width:34px;height:34px;stroke:#C9B49A;fill:none;stroke-width:1.5}
+.rd-hero-txt{padding:12px}
+.rd-hero-txt b{display:block;font-size:15px;margin-bottom:6px}
+.rd-chips{display:flex;gap:6px;flex-wrap:wrap}
+.rd-chips i{font-style:normal;font-size:11px;background:#fff;border:1px solid var(--line);padding:3px 8px;border-radius:20px;color:var(--ink)}
+.rd-chips.big i{font-size:12px;padding:5px 10px;background:var(--chip);border:0}
+.rd-list{display:flex;flex-direction:column;gap:8px}
+.rd-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;background:#fff;transition:background .15s}
+.rd-item:hover{background:var(--bg)}
+.rd-item small{font-weight:400;color:var(--mut);font-size:11px;white-space:nowrap}
+.rd-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:4px}
+.rd-search span{color:var(--mut)}
+.rd-search input{border:0;outline:0;font:inherit;font-size:14px;width:100%;background:transparent}
+.rd-filters{display:flex;gap:6px;margin:10px 0 2px}
+.rd-filters button{font:inherit;font-size:12px;border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:20px;cursor:pointer;color:var(--ink)}
+.rd-filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rd-count{font-size:11px;color:var(--mut);margin:10px 0 6px}
+.rd-card{border:1px solid var(--line);border-radius:16px;padding:14px;font-size:13px}
+.rd-row{display:flex;gap:10px;margin:10px 0}
+.rd-row div{flex:1}
+.rd-row small{display:block;color:var(--mut);font-size:11px;margin-bottom:4px}
+.rd-row input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;font-weight:600;padding:8px 10px;border:1px solid var(--line);border-radius:10px}
+.rd-out{background:var(--chip);border-radius:12px;padding:12px;font-size:13px}
+.rd-out b{display:block;font-size:20px;color:var(--acc);margin-top:2px}
+.rd-note{font-size:11px;color:var(--mut)}
+.rd-detail{position:absolute;inset:0;bottom:62px;background:#fff;padding-top:48px;z-index:3;animation:rdIn .25s ease}
+.rd-back{font:inherit;font-size:13px;border:0;background:none;color:var(--acc);padding:0;cursor:pointer;margin-bottom:8px}
+.rd-d-img{height:140px;border-radius:16px}
+.rd-detail h3{font-size:17px;margin:12px 0 8px}
+.rd-detail ul,.rd-detail ol{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
+.rd-tabs{display:flex;border-top:1px solid var(--line);background:#fff;padding:6px 4px 12px;z-index:4}
+.rd-tabs button{flex:1;font:inherit;font-size:11px;border:0;background:none;color:var(--mut);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.rd-tabs button span{font-size:17px}
+.rd-tabs button.on{color:var(--acc);font-weight:600}
+@keyframes rdIn{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+</style>
+
+<script>
+(function(){
+  // VALORES ILUSTRATIVOS — substituir pelos reais do app
+  // FOTOS: cole o link da imagem de cada receita em img:"" (ex.: img:"https://seusite.com/pollo.jpg")
+  var R=[
+    {n:"Cosce di pollo con patate",img:"https://iili.io/n1s9eKG.jpg",e:"🍗",m:25,t:190,k:380,ing:["4 cosce di pollo","400 g di patate","Rosmarino, olio, sale"],s:["Condisci pollo e patate.","Cuoci 15 min a 190°.","Gira e prosegui 10 min."]},
+    {n:"Bocconcini di pollo al limone",img:"https://iili.io/n1sKu19.jpg",e:"🍋",m:18,t:185,k:310,ing:["500 g di petto di pollo","1 limone","Pangrattato"],s:["Taglia e marina 5 min.","Passa nel pangrattato.","Cuoci 18 min a 185°."]},
+    {n:"Involtini di pollo e speck",img:"https://iili.io/n1szVRt.jpg",e:"🥓",m:20,t:190,k:350,ing:["4 fettine di pollo","4 fette di speck","Formaggio"],s:["Arrotola con speck e formaggio.","Cuoci 20 min a 190°."]},
+    {n:"Salmone con zucchine",img:"https://i.postimg.cc/pdqCNvmc/Gemini-Generated-Image-x4st0jx4st0jx4st.jpg",e:"🐟",m:15,t:180,k:330,ing:["2 tranci di salmone","2 zucchine","Limone, aneto"],s:["Condisci salmone e zucchine.","Cuoci 15 min a 180°."]},
+    {n:"Polpette al sugo leggere",img:"https://i.postimg.cc/63K8h46R/Gemini-Generated-Image-curikqcurikqcuri.jpg",e:"🍝",m:20,t:180,k:360,ing:["400 g di macinato","1 uovo","Passata"],s:["Forma le polpette.","Cuoci 12 min a 180°.","Unisci al sugo caldo."]},
+    {n:"Verdure grigliate miste",img:"https://i.postimg.cc/RVhNGBmw/Gemini-Generated-Image-vviaduvviaduvvia.jpg",e:"🥕",m:16,t:200,k:140,ing:["Peperoni, zucchine, melanzane","Olio, origano"],s:["Taglia a listarelle.","Cuoci 16 min a 200°."]},
+    {n:"Cotoletta di pollo croccante",img:"https://i.postimg.cc/XYQWPZgC/Gemini-Generated-Image-xmwm26xmwm26xmwm-%281%29.jpg",e:"🍽️",m:18,t:190,k:340,ing:["2 petti di pollo","1 uovo","Pangrattato"],s:["Impana il pollo.","Cuoci 18 min a 190°, girando a metà."]},
+    {n:"Patate al rosmarino",img:"https://i.postimg.cc/kXSyJZ1p/Gemini-Generated-Image-54jioh54jioh54ji.jpg",e:"🥔",m:22,t:200,k:210,ing:["600 g di patate","Rosmarino, aglio"],s:["Taglia a spicchi.","Cuoci 22 min a 200°."]}
+  ];
+  var $=function(s){return document.querySelector(s)};
+  var ICON='<svg viewBox="0 0 24 24"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M8 7c0-1.5 1-1.5 1-3M12 7c0-1.5 1-1.5 1-3M16 7c0-1.5 1-1.5 1-3"/></svg>';
+  function pic(el,r){if(r.img){el.style.backgroundImage="url('"+r.img+"')";el.innerHTML=""}else{el.style.backgroundImage="";el.innerHTML=ICON}}
+  pic($("#rd-hero-img"),R[0]);
+  function chips(r){return "<i>"+r.m+" min</i><i>"+r.t+"°</i><i>"+r.k+" kcal</i>"}
+  function item(r,i){return '<div class="rd-item" data-open="'+i+'">'+r.n+'<small>'+r.m+'m · '+r.t+'° · '+r.k+' kcal</small></div>'}
+  $("#rd-alt").innerHTML=[1,3,5].map(function(i){return item(R[i],i)}).join("");
+
+  var f="all";
+  function render(){
+    var q=$("#rd-q").value.trim().toLowerCase();
+    var out=R.map(function(r,i){return [r,i]}).filter(function(p){
+      var r=p[0];
+      if(q && (r.n+" "+r.ing.join(" ")).toLowerCase().indexOf(q)<0) return false;
+      if(f==="20" && r.m>20) return false;
+      if(f==="light" && r.k>330) return false;
+      return true;
+    });
+    $("#rd-count").textContent=out.length+" risultati su 400 ricette";
+    $("#rd-list").innerHTML=out.map(function(p){return item(p[0],p[1])}).join("");
+  }
+  $("#rd-q").addEventListener("input",render);
+  document.querySelectorAll(".rd-filters button").forEach(function(b){
+    b.onclick=function(){document.querySelectorAll(".rd-filters button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");f=b.dataset.f;render()}
+  });
+
+  function tab(name){
+    document.querySelectorAll(".rd-tabs button").forEach(function(b){b.classList.toggle("on",b.dataset.tab===name)});
+    document.querySelectorAll(".rd-view").forEach(function(v){v.hidden=v.dataset.view!==name});
+    $("#rd-detail").hidden=true;
+  }
+  document.querySelectorAll(".rd-tabs button").forEach(function(b){b.onclick=function(){stop();tab(b.dataset.tab)}});
+
+  function open(i){
+    var r=R[i];
+    pic($("#rd-d-img"),r);$("#rd-d-name").textContent=r.n;$("#rd-d-chips").innerHTML=chips(r);
+    $("#rd-d-ing").innerHTML=r.ing.map(function(x){return"<li>"+x+"</li>"}).join("");
+    $("#rd-d-steps").innerHTML=r.s.map(function(x){return"<li>"+x+"</li>"}).join("");
+    $("#rd-detail").hidden=false;$("#rd-detail").scrollTop=0;
+  }
+  document.querySelector(".rd-screen").addEventListener("click",function(e){
+    var el=e.target.closest("[data-open]");if(el){stop();open(+el.dataset.open)}
+  });
+  $("#rd-back").onclick=function(){$("#rd-detail").hidden=true};
+
+  // Convertitore (regra indicativa: -20°C e -20% do tempo) — VALIDAR antes de publicar
+  function conv(){
+    var t=+$("#rd-t").value||0,m=+$("#rd-m").value||0;
+    $("#rd-out").innerHTML="In friggitrice:<b>"+Math.max(t-20,0)+"° · "+Math.round(m*0.8)+" min</b>";
+  }
+  $("#rd-t").oninput=conv;$("#rd-m").oninput=conv;conv();
+  render();
+
+  // Demo automática: digita "pollo", abre uma receita, volta. Para no primeiro toque do visitante.
+  var timers=[],running=true;
+  function stop(){if(!running)return;running=false;timers.forEach(clearTimeout)}
+  function at(ms,fn){timers.push(setTimeout(function(){if(running)fn()},ms))}
+  function loop(){
+    at(1500,function(){tab("ricette");$("#rd-q").value="";render()});
+    "pollo".split("").forEach(function(c,i){at(2200+i*180,function(){$("#rd-q").value+=c;render()})});
+    at(4200,function(){open(0)});
+    at(7200,function(){$("#rd-detail").hidden=true});
+    at(8200,function(){tab("strumenti")});
+    at(10500,function(){tab("stasera");loop()});
+  }
+  $("#rd-q").addEventListener("focus",stop);
+  ["#rd-t","#rd-m"].forEach(function(s){$(s).addEventListener("focus",stop)});
+  var started=false,io=new IntersectionObserver(function(en){if(en[0].isIntersecting&&!started){started=true;loop()}});
+  io.observe(document.querySelector(".rd-phone"));
+})();
+</script>
+
+</body>
+</html>
